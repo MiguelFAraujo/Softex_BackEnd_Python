@@ -82,5 +82,5 @@ while True:
 
     codigo_atual = codigo_venda + 1
 
-    print(f'O valor todal da sua compra foi de R$ {valor_compra + valor_frete} com código {codigo_atual}')
+    print(f'O valor todal da sua compra foi de R$ {valor_forma + valor_frete} com código {codigo_atual}')
     break
