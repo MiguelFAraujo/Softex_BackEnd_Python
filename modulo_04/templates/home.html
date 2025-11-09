@@ -4,6 +4,18 @@
 {% endblock %}
 {% block content %}
   <h1>Olá, {{ nome_usuario }}!</h1>
+  <hr>
+  <h3>Nova Tarefa</h3>
+
+  <form method="POST">
+
+    {% csrf_token %}
+
+    {{ form.as_p }}
+
+    <button type="submit">Adicionar Tarefa</button>
+  </form>
+  <hr>
   <p>Este HTML está separado do meu código Python.</p>
   
   <h3>Tecnologias que estou aprendendo:</h3>
