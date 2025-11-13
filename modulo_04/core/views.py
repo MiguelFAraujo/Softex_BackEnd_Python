@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Tarefa
 from .forms import TarefaForm
 
@@ -27,3 +27,24 @@ def home(request):
     }
 
     return render(request, 'home.html', context)
+
+def concluir_tarefa(request, pk):
+
+    tarefa = get_object_or_404(Tarefa, pk=pk)
+    if request.method == 'POST':
+
+        tarefa.concluida = True
+
+        tarefa.save()
+
+
+        return redirect('home')
+
+def deletar_tarefa(request, pk):
+
+    tarefa = get_object_or_404(Tarefa, pk=pk)
+    if request.method == 'POST':
+
+        tarefa.delete()
+
+        return redirect('home')
