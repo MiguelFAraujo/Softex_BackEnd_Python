@@ -123,3 +123,13 @@ STATICFILES_DIRS = [BASE_DIR / 'static']
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Onde encontrar a página de login
+LOGIN_URL = 'login'
+
+# Onde ir depois de um LOGIN bem-sucedido
+LOGIN_REDIRECT_URL = 'home'
+
+# (A SUA NOVA LINHA)
+# Onde ir depois de um LOGOUT
+LOGOUT_REDIRECT_URL = 'login'
