@@ -11,9 +11,11 @@ urlpatterns = [
      
     # URL de Login 
     # Ela usa a View pronta 'LoginView' e diz a ela para usar nosso template 
-    path('login/',  auth_views.LoginView.as_view(template_name='login.html'),  name='login'), 
+    path('login/',  auth_views.LoginView.as_view(template_name='login.html'),
+    name='login'), 
           
     # URL de Logout 
     # Ela usa a View 'LogoutView'. 'next_page' diz para onde ir após o logout. 
-    path('logout/',  auth_views.LogoutView.as_view(next_page='login'),  name='logout'), 
+    path('logout/',  auth_views.LogoutView.as_view(next_page='login'),
+    name='logout'), 
 ] 

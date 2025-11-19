@@ -30,7 +30,7 @@ def home(request):
     todas_as_tarefas = Tarefa.objects.filter(user = request.user).order_by('-criada_em')
 
     context = {
-        'nome_usuario': 'Júnior',
+        'nome_usuario': request.user.username,
         'tecnologias': ['Python', 'Django', 'Models', 'Forms'],
         'tarefas': todas_as_tarefas,
         'form': form
