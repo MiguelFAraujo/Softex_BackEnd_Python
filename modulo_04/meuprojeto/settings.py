@@ -132,4 +132,4 @@ LOGIN_REDIRECT_URL = 'home'
 
 # (A SUA NOVA LINHA)
 # Onde ir depois de um LOGOUT
-LOGOUT_REDIRECT_URL = 'login'
+#LOGOUT_REDIRECT_URL = 'login'
