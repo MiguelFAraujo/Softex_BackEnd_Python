@@ -6,6 +6,7 @@ from django.contrib.auth import login # 2. Importe a função 'login'
 from django.contrib.auth.decorators import login_required # 1. Importe o decorador 
 from .models import Tarefa 
 from .forms import TarefaForm
+from django.contrib import messages
 
 
 @login_required
@@ -48,6 +49,7 @@ def concluir_tarefa(request, pk):
 
         tarefa.save()
 
+        messages.success(request, 'Parabéns! tarefa concluída com sucesso!')
 
         return redirect('home')
 
