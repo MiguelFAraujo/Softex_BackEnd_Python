@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load humanize %} 
 {% block title %}
   Página Inicial - Meu Site
 {% endblock %}
@@ -49,7 +50,7 @@
 
         {% endif %}
         <br>
-         <small>Criada em: {{ tarefa.criada_em|date:"d/m/Y H:i" }}</small><div style="margin-top: 10px;"> 
+         <small>Criado há {{ tarefa.criada_em|naturaltime }}</small><div style="margin-top: 10px;"> 
             <form action="{% url 'deletar_tarefa' tarefa.pk %}" method="POST" style="display: inline;"> 
                {% csrf_token %} 
                <button type="submit">Deletar</button> 

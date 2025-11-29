@@ -38,7 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'core',
+    'django.contrib.humanize',
     'projects',
+
 ]
 
 MIDDLEWARE = [
@@ -118,6 +120,10 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+import os
+# Dizemos: "Django, quando for pra valer, jogue tudo nesta pasta aqui"
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_para_deploy')
+
 STATICFILES_DIRS = [BASE_DIR / 'static']
 
 # Default primary key field type
@@ -133,4 +139,4 @@ LOGIN_REDIRECT_URL = 'home'
 
 # (A SUA NOVA LINHA)
 # Onde ir depois de um LOGOUT
-#LOGOUT_REDIRECT_URL = 'login'
+LOGOUT_REDIRECT_URL = 'login'
