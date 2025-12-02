@@ -27,3 +27,27 @@ __pycache__
 *.cache
 *.sqlite3
 *.sqlite
+
+---------------
+
+usar o terminal para gerar a propria chave aleatorio:
+
+Abra o seu terminal (no VS Code mesmo).
+
+Digite (ou copie e cole) este comando exato e aperte Enter:
+
+Bash
+
+python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
+
+O terminal vai "cuspir" uma sequência de letras e símbolos aleatórios (Ex: h^&8(2)@...).
+
+Copie essa sequência.
+
+Abra seu arquivo .env e cole assim:
+
+Snippet de código
+
+SECRET_KEY=cole-aqui-a-sequencia-que-voce-copiou
+DEBUG=True
+(Não precisa de aspas em volta da senha no arquivo .env, a menos que tenha espaços).
