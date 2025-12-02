@@ -1,0 +1,95 @@
+========================================================================
+📘 GUIA DE SOBREVIVÊNCIA GIT & GITHUB - COMANDOS ESSENCIAIS
+========================================================================
+
+--- PARTE 1: ENTENDENDO AS "SIGLAS" (FLAGS) ---
+
+Antes de decorar, entenda o que as letras significam:
+
+[ -m ] Message (Mensagem)
+       Usado no commit para escrever o texto na hora, sem abrir editor.
+       Ex: git commit -m "Texto"
+
+[ -u ] Upstream (Fluxo Acima / Vínculo)
+       Cria um trilho fixo entre seu PC e o GitHub. Usado no primeiro push.
+       Ex: git push -u origin minha-branch
+
+[ -b ] Branch (Nova Ramificação)
+       Avisa ao comando checkout para "Criar" antes de "Mudar".
+       Ex: git checkout -b nome-da-nova-branch
+
+[ -D ] Delete (Forçar Exclusão)
+       Apaga uma branch na marra, mesmo se o Git achar perigoso.
+       Ex: git branch -D nome-da-branch-velha
+
+[ . ]  Ponto (Tudo/Aqui)
+       Representa "todos os arquivos da pasta atual".
+       Ex: git add .
+
+------------------------------------------------------------------------
+
+--- PARTE 2: COMANDOS DO DIA A DIA (O RITUAL) ---
+
+1. BAIXAR UM PROJETO (Só na primeira vez)
+   git clone <LINK_DO_GITHUB>
+   -> O que faz: Cria uma pasta no seu PC com todo o código que está na nuvem.
+
+2. COMEÇAR UMA TAREFA NOVA (Sempre a partir da main!)
+   git checkout main
+   -> O que faz: Volta para a linha principal.
+   
+   git pull origin main
+   -> O que faz: Baixa as atualizações dos colegas (Sincroniza).
+   
+   git checkout -b feature/nome-da-tarefa
+   -> O que faz: Cria uma sala separada para você trabalhar seguro.
+
+3. SALVAR O TRABALHO (O Trinômio Sagrado)
+   git add .
+   -> O que faz: Coloca os arquivos modificados na "caixa de envio".
+   
+   git commit -m "Verbo imperativo: descreva o que fez"
+   -> O que faz: Lacra a caixa com uma etiqueta de identificação.
+   
+   git push -u origin feature/nome-da-tarefa
+   -> O que faz: Envia a caixa para o GitHub (Nuvem).
+   (Obs: Nas próximas vezes, basta digitar apenas 'git push').
+
+------------------------------------------------------------------------
+
+--- PARTE 3: SINCRONIZAÇÃO E PROBLEMAS ---
+
+4. ATUALIZAR SEU PC (Depois que um código foi aprovado/mergeado)
+   git checkout main
+   git pull origin main
+   -> O que faz: Atualiza seu computador com a versão oficial do projeto.
+
+5. RESOLVER CONFLITO (Quando o Git trava)
+   Cenário: Você tentou enviar, mas o Git disse que tem coisas diferentes lá.
+   
+   Passo A: Puxe a realidade para o seu PC
+   git pull origin main
+   
+   Passo B: O VS Code vai mostrar linhas coloridas (<<<< ==== >>>>).
+            Apague as setas, escolha o código certo e salve.
+            
+   Passo C: Salve a resolução
+   git add .
+   git commit -m "Resolvendo conflito"
+   git push
+
+------------------------------------------------------------------------
+
+--- PARTE 4: LIMPEZA ---
+
+6. APAGAR UMA BRANCH VELHA
+   git checkout main
+   -> Saia da branch primeiro.
+   
+   git branch -D feature/tarefa-ja-feita
+   -> O que faz: Apaga a branch do seu computador para não acumular lixo.
+
+========================================================================
+DICA DE OURO:
+Nunca trabalhe direto na branch 'main'. A main é sagrada!
+========================================================================
