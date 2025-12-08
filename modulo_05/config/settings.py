@@ -10,8 +10,11 @@ environ.Env.read_env() # Lê o arquivo .env
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # --- SEGURANÇA PROFISSIONAL ---
-# Agora a chave vem do arquivo oculto, não fica exposta aqui
-SECRET_KEY = env("SECRET_KEY")
+# Como fazemos alteração pois não sobe para o github faremos essa chave padrao para uso enquanto no curso
+SECRET_KEY = env("SECRET_KEY", default='django-insecure-chave-de-aula-12345')
+
+# O mesmo para o Debug
+DEBUG = env.bool("DEBUG", default=True)
 
 # O Debug também é controlado pelo arquivo
 DEBUG = env.bool("DEBUG", default=False)
