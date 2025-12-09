@@ -16,10 +16,8 @@ SECRET_KEY = env("SECRET_KEY", default='django-insecure-chave-de-aula-12345')
 # O mesmo para o Debug
 DEBUG = env.bool("DEBUG", default=True)
 
-# O Debug também é controlado pelo arquivo
-DEBUG = env.bool("DEBUG", default=False)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
