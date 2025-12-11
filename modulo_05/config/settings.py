@@ -1,6 +1,7 @@
 from pathlib import Path
 import os
 import environ  # <--- Biblioteca que instalamos
+from datetime import timedelta # <--- Para configurar o tempo dos tokens
 
 # Inicializa o environ
 env = environ.Env()
@@ -36,6 +37,10 @@ INSTALLED_APPS = [
      
     # Local apps 
     'core',
+
+    'rest_framework', 
+    'rest_framework_simplejwt',  # ← JWT 
+    # ...
 ]
 
 MIDDLEWARE = [
@@ -96,6 +101,33 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+# Configuração do Django REST Framework 
+REST_FRAMEWORK = { 
+    'DEFAULT_AUTHENTICATION_CLASSES': ( 
+        # Define JWT como método de autenticação PADRÃO 
+        'rest_framework_simplejwt.authentication.JWTAuthentication', 
+    ), 
+    # Outras configurações padrão 
+} 
+ 
+# Configuração do Simple JWT 
+SIMPLE_JWT = { 
+    # Tempo de vida do Access Token (curto!) 
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5), 
+     
+    # Tempo de vida do Refresh Token (longo!) 
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1), 
+     
+    # Define o esquema de autenticação no header HTTP 
+    'AUTH_HEADER_TYPES': ('Bearer',), 
+     
+    # Algoritmo de criptografia 
+    'ALGORITHM': 'HS256', 
+     
+    # Nome do campo de usuário no payload (user_id é padrão) 
+    'USER_ID_CLAIM': 'user_id',  
+} 
 
 
 # Internationalization

@@ -16,10 +16,23 @@ Including another URLconf
 """
 from django.contrib import admin 
 from django.urls import path, include 
+# --- Importação Nova (JWT) ---
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
 
 urlpatterns = [ 
 # Admin do Django 
 path('admin/', admin.site.urls), 
+
+# --- Rotas Novas (Autenticação JWT) ---
+# Login: O usuário manda usuario/senha e ganha o Token
+path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    
+    # Refresh: O usuário manda o Refresh Token e ganha um Access Token novo
+path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+
 # URLs do app core (prefixo: /api/) 
 path('api/', include('core.urls')), 
 ]
