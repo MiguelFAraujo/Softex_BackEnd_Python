@@ -38,9 +38,8 @@ INSTALLED_APPS = [
     # Local apps 
     'core',
 
-    'rest_framework', 
-    'rest_framework_simplejwt',  # ← JWT 
-    # ...
+    #apostila 04
+    'rest_framework_simplejwt.token_blacklist',
 ]
 
 MIDDLEWARE = [

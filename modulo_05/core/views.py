@@ -1,81 +1,42 @@
+from rest_framework import generics, status
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
-from django.shortcuts import get_object_or_404
-
-#adições necessárias para o POST(ap3)
+from rest_framework_simplejwt.tokens import RefreshToken
 from .models import Tarefa
 from .serializers import TarefaSerializer
 
+# Lista tarefas e permite criação (POST injeta usuário automaticamente)
+class TarefaListCreateAPIView(generics.ListCreateAPIView):
+    queryset = Tarefa.objects.all()
+    serializer_class = TarefaSerializer
+    permission_classes = [IsAuthenticated] # Proteção [cite: 136]
 
-class ListaTarefasAPIView(APIView):
-    """
-    View para listar todas as tarefas e criar novas (Apostila 2).
-    """
-    
-    def get(self, request, format=None):
-        tarefas = Tarefa.objects.all()
-        serializer = TarefaSerializer(tarefas, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    
-    def post(self, request, format=None):
-        serializer = TarefaSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-<<<<<<< HEAD
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-=======
-        
-        # 5. Se der erro, retornar 400 Bad Request
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-class DetalheTarefaAPIView(APIView):
-    """
-    View para operações em UMA tarefa específica:
-    - GET: Visualizar
-    - PUT: Atualizar tudo
-    - PATCH: Atualizar parcial
-    - DELETE: Apagar
-    """
+    # MÉTODO CHAVE: Injeta o usuário logado antes de salvar [cite: 137]
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
 
-    # Método auxiliar para buscar a tarefa ou dar erro 404
-    def get_object(self, pk):
-        return get_object_or_404(Tarefa, pk=pk)
+# Detalhes, atualização e exclusão de UMA tarefa
+class TarefaRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Tarefa.objects.all()
+    serializer_class = TarefaSerializer
+    permission_classes = [IsAuthenticated] # Proteção [cite: 151]
 
-    # 1. GET - Buscar uma tarefa específica
-    def get(self, request, pk, format=None):
-        tarefa = self.get_object(pk)
-        serializer = TarefaSerializer(tarefa) # Sem many=True, pois é um só
-        return Response(serializer.data, status=status.HTTP_200_OK)
+# View de Logout (Blacklist)
+class LogoutView(APIView):
+    permission_classes = [IsAuthenticated]
 
-    # 2. PUT - Atualizar TUDO (Exige todos os campos)
-    def put(self, request, pk, format=None):
-        tarefa = self.get_object(pk)
-        serializer = TarefaSerializer(tarefa, data=request.data)
-        
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    # 3. PATCH - Atualizar PARCIAL (Ex: só marcar como concluída)
-    def patch(self, request, pk, format=None):
-        tarefa = self.get_object(pk)
-        
-        # O segredo do PATCH é o partial=True
-        serializer = TarefaSerializer(tarefa, data=request.data, partial=True)
-        
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
-            
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    # 4. DELETE - Apagar a tarefa
-    def delete(self, request, pk, format=None):
-        tarefa = self.get_object(pk)
-        tarefa.delete()
-        # Retorna 204 (Sucesso sem conteúdo)
-        return Response(status=status.HTTP_204_NO_CONTENT)
->>>>>>> feat/m5/gabarito/ap_03
+    def post(self, request):
+        try:
+            refresh_token = request.data.get("refresh")
+            token = RefreshToken(refresh_token)
+            token.blacklist() # Adiciona o token à lista negra [cite: 287]
+            return Response(
+                {"detail": "Logout realizado com sucesso."},
+                status=status.HTTP_205_RESET_CONTENT
+            )
+        except Exception:
+            return Response(
+                {"detail": "Token inválido."},
+                status=status.HTTP_400_BAD_REQUEST
+            )

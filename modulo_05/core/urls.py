@@ -1,20 +1,12 @@
-<<<<<<< HEAD
 from django.urls import path
-from .views import ListaTarefasAPIView
+from .views import (
+    TarefaListCreateAPIView, 
+    TarefaRetrieveUpdateDestroyAPIView, 
+    LogoutView
+)
 
 urlpatterns = [
-    path('tarefas/', ListaTarefasAPIView.as_view(), name='lista-tarefas'),
-=======
-from .views import ListaTarefasAPIView, DetalheTarefaAPIView
-from django.urls import path
-
-app_name = 'core'
-
-urlpatterns = [
-    # Rota antiga (Coleção)
-    path('tarefas/', ListaTarefasAPIView.as_view(), name='lista-tarefas'),
-    
-    # O <int:pk> é o que captura o número da URL (ex: 1, 42)
-    path('tarefas/<int:pk>/', DetalheTarefaAPIView.as_view(), name='detalhe-tarefa'),
->>>>>>> feat/m5/gabarito/ap_03
+    path('tarefas/', TarefaListCreateAPIView.as_view(), name='tarefa-list-create'),
+    path('tarefas/<int:pk>/', TarefaRetrieveUpdateDestroyAPIView.as_view(), name='tarefa-detail'),
+    path('logout/', LogoutView.as_view(), name='logout'),
 ]
