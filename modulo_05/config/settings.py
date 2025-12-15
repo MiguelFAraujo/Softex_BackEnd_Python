@@ -30,16 +30,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
-     # Third party 
     'rest_framework', 
-    'rest_framework_simplejwt', 
-     
-    # Local apps 
-    'core',
-
-    #apostila 04
+    'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
+    'core',
 ]
 
 MIDDLEWARE = [
@@ -103,12 +97,19 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Configuração do Django REST Framework 
 REST_FRAMEWORK = { 
-    'DEFAULT_AUTHENTICATION_CLASSES': ( 
-        # Define JWT como método de autenticação PADRÃO 
-        'rest_framework_simplejwt.authentication.JWTAuthentication', 
-    ), 
-    # Outras configurações padrão 
-} 
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    # Adicionar proteções contra ataque de força bruta [cite: 323-326]
+    'DEFAULT_THROTTLE_CLASSES': [
+        'rest_framework.throttling.AnonRateThrottle',
+        'rest_framework.throttling.UserRateThrottle'
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '100/day',  # Visitantes anônimos: 100 reqs/dia [cite: 328]
+        'user': '3000/day'  # Usuários logados: 3000 reqs/dia [cite: 329]
+    }
+}
  
 # Configuração do Simple JWT 
 SIMPLE_JWT = { 
@@ -125,7 +126,15 @@ SIMPLE_JWT = {
     'ALGORITHM': 'HS256', 
      
     # Nome do campo de usuário no payload (user_id é padrão) 
-    'USER_ID_CLAIM': 'user_id',  
+    'USER_ID_CLAIM': 'user_id',
+
+
+    'ROTATE_REFRESH_TOKENS': True, 
+    'BLACKLIST_AFTER_ROTATION': True,
+    'ALGORITHM': 'HS256',
+    'SIGNING_KEY': SECRET_KEY,
+    'AUTH_HEADER_TYPES': ('Bearer',),
+
 } 
 
 
