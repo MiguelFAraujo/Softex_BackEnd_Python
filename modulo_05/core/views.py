@@ -97,14 +97,6 @@ class DetalheTarefaAPIView(APIView):
         tarefa.delete() 
         return Response(status=status.HTTP_204_NO_CONTENT)
     
-
-class MinhaView(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def get(self, request):
-         return Response(f"Usuário autenticado: {request.user.username}", 
-                        status=status.HTTP_200_OK,
-                        )
     
 class LogoutView(APIView):
     permission_classes = [IsAuthenticated]

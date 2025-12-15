@@ -1,9 +1,9 @@
 from django.urls import path
-from .views import ListaTarefasAPIView, DetalheTarefaAPIView, MinhaView, LogoutView
+# Importe apenas o que existe no seu views.py
+from .views import ListaTarefasAPIView, DetalheTarefaAPIView, LogoutView
 
-app_name = 'core'
 urlpatterns = [
     path('tarefas/', ListaTarefasAPIView.as_view(), name='lista-tarefas'),
     path('tarefas/<int:pk>/', DetalheTarefaAPIView.as_view(), name='detalhe-tarefa'),
-    path('logout/', LogoutView.as_view(), name='logout'), 
+    path('logout/', LogoutView.as_view(), name='auth_logout'),
 ]
