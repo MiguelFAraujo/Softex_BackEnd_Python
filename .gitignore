@@ -6,13 +6,5 @@ __pycache__/
 # Ambientes Virtuais (Nunca suba isso!)
 .venv/
 venv/
-env/
-
-# Banco de Dados (SQLite é local, não sobe)
 db.sqlite3
-
-# Arquivos de Segurança (Senhas)
-.env
-
-# VS Code
 .vscode/

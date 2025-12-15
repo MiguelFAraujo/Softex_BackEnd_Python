@@ -1,12 +1,9 @@
 from django.urls import path
-from .views import (
-    TarefaListCreateAPIView, 
-    TarefaRetrieveUpdateDestroyAPIView, 
-    LogoutView
-)
+from .views import ListaTarefasAPIView, DetalheTarefaAPIView, MinhaView, LogoutView
 
+app_name = 'core'
 urlpatterns = [
-    path('tarefas/', TarefaListCreateAPIView.as_view(), name='tarefa-list-create'),
-    path('tarefas/<int:pk>/', TarefaRetrieveUpdateDestroyAPIView.as_view(), name='tarefa-detail'),
-    path('logout/', LogoutView.as_view(), name='logout'),
+    path('tarefas/', ListaTarefasAPIView.as_view(), name='lista-tarefas'),
+    path('tarefas/<int:pk>/', DetalheTarefaAPIView.as_view(), name='detalhe-tarefa'),
+    path('logout/', LogoutView.as_view(), name='logout'), 
 ]
