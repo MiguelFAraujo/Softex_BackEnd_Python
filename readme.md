@@ -177,8 +177,18 @@ Professor e Desenvolvedor Back-End
 
 ---
 
+## 🙏 Considerações ao Professor
+
+Este projeto foi desenvolvido com base nos conhecimentos adquiridos ao longo do curso, sob a orientação do **Professor Anderson**, a quem deixo meu agradecimento pela condução das aulas, pelo suporte técnico e pelas contribuições fundamentais para a construção do aprendizado em Back-End com Python e Django.
+
+A abordagem prática adotada ao longo do curso foi essencial para a consolidação dos conceitos apresentados neste repositório, incentivando a autonomia, o raciocínio lógico e a aplicação real das tecnologias estudadas.
+
+---
+
 ## ⭐ Considerações Finais
 
-Este material foi desenvolvido para **ensino prático**, priorizando clareza, organização e aplicação real dos conceitos de back-end.
+Este material foi desenvolvido com foco em **ensino prático**, priorizando clareza, organização e aplicação real dos conceitos de back-end.
 
-Sugestões de melhoria, correções e contribuições são bem-vindas.
+O repositório reflete o processo de aprendizagem ao longo do curso e pode ser utilizado tanto como material de apoio para estudos futuros quanto como base para projetos mais avançados.
+
+Sugestões de melhoria, correções e contribuições são sempre bem-vindas.
