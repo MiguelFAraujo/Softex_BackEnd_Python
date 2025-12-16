@@ -1,38 +1,53 @@
-from rest_framework import serializers
+from rest_framework import generics, status
+from rest_framework.response import Response
+from rest_framework.views import APIView # Ainda precisa para Logout e MinhaView
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.tokens import RefreshToken
 from .models import Tarefa
-
-class TarefaSerializer(serializers.ModelSerializer):
-    # Mostra o username (read-only) em vez do ID
-    user = serializers.StringRelatedField(read_only=True)
-
-    class Meta:
-        model = Tarefa
-        fields = ['id', 'user', 'titulo', 'concluida', 'criada_em']
-        # Impedir que o cliente envie/edite esses campos
-        read_only_fields = ['id', 'user', 'criada_em']
+from .serializers import TarefaSerializer
 
 
-    '''def validate_titulo(self, value):
-        """
-        Validação customizada para o campo 'titulo'.
-        Regras:
-        - Não pode ser vazio (após strip)
-        - Não pode conter apenas números
-        - Deve ter pelo menos 3 caracteres
-        """
-        value = value.strip()
-        if not value:
-            raise serializers.ValidationError(
-                "O título não pode ser vazio ou conter apenas espaços."
-            )
-        if len(value) < 3:
-            raise serializers.ValidationError(
-                "O título deve ter pelo menos 3 caracteres."
-            )
-        if value.isdigit():
-            raise serializers.ValidationError(
-                "O título não pode conter apenas números."
-            )
+class ListaTarefasAPIView(generics.ListCreateAPIView):
+    """
+    ListCreateAPIView já faz automaticamente:
+    - GET: Lista todas as tarefas (queryset)
+    - POST: Cria uma nova tarefa com validação
+    """
+    queryset = Tarefa.objects.all()
+    serializer_class = TarefaSerializer
+    permission_classes = [IsAuthenticated]
 
-        
-        return value'''
+    # Opcional: Se quiser manter o comportamento de salvar o usuário logado automaticamente
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+
+class DetalheTarefaAPIView(generics.RetrieveUpdateDestroyAPIView):
+    """
+    RetrieveUpdateDestroyAPIView já faz automaticamente:
+    - GET: Busca uma tarefa pelo ID (pk)
+    - PUT/PATCH: Atualiza a tarefa
+    - DELETE: Remove a tarefa
+    """
+    queryset = Tarefa.objects.all()
+    serializer_class = TarefaSerializer
+    permission_classes = [IsAuthenticated]
+
+class MinhaView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+         return Response(f"Usuário autenticado: {request.user.username}", 
+                         status=status.HTTP_200_OK)
+    
+class LogoutView(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    def post(self, request):
+        try:
+            refresh_token = request.data.get("refresh")
+            token = RefreshToken(refresh_token)
+            token.blacklist()
+            return Response({"detail": "Logout realizado com sucesso."}, status=status.HTTP_205_RESET_CONTENT)
+        except Exception:
+            return Response({"detail": "Token inválido."}, status=status.HTTP_400_BAD_REQUEST)
