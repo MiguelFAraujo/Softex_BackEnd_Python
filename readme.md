@@ -1,35 +1,35 @@
-# 🚀 Softex – Back-End com Python e Django
+🚀 Softex – Back-End com Python e Django
 
-Este repositório reúne **materiais didáticos, códigos‑modelo e projetos práticos** desenvolvidos para o **Curso de Back-End com Python e Django**, aplicado na formação da turma **02‑RJ‑C1 (Softex)**.
+Este repositório reúne materiais didáticos, códigos‑modelo e projetos práticos desenvolvidos para o Curso de Back-End com Python e Django, aplicado na formação da turma 02‑RJ‑C1 (Softex).
 
-O objetivo principal é servir como **guia de estudo progressivo**, partindo dos fundamentos da linguagem Python até o desenvolvimento de **APIs REST profissionais com Django REST Framework**.
+O objetivo principal é servir como guia de estudo progressivo, partindo dos fundamentos da linguagem Python até o desenvolvimento de APIs REST profissionais com Django REST Framework.
 
----
+🎯 Objetivo do Projeto
 
-## 🎯 Objetivo do Projeto
+Ensinar programação back-end de forma gradual e acessível.
 
-* Ensinar **programação back-end** de forma gradual e acessível
-* Aplicar conceitos teóricos por meio de **códigos práticos**
-* Introduzir o aluno ao **desenvolvimento web com Django**
-* Capacitar na criação de **APIs REST** utilizadas no mercado
-* Estimular boas práticas de organização, versionamento e documentação
+Aplicar conceitos teóricos por meio de códigos práticos.
 
----
+Introduzir o aluno ao desenvolvimento web com Django.
 
-## 🧠 Público-Alvo
+Capacitar na criação de APIs REST utilizadas no mercado.
 
-* Estudantes iniciantes em programação
-* Alunos de cursos profissionalizantes (Softex, técnicos ou similares)
-* Pessoas interessadas em **Back-End com Python**
-* Desenvolvedores iniciantes que desejam aprender Django na prática
+Estimular boas práticas de organização, versionamento e documentação.
 
----
+🧠 Público-Alvo
 
-## 🧱 Estrutura do Repositório
+Estudantes iniciantes em programação.
 
-O conteúdo está organizado em **módulos didáticos**, seguindo uma progressão lógica de aprendizado:
+Alunos de cursos profissionalizantes (Softex, técnicos ou similares).
 
-```text
+Pessoas interessadas em Back-End com Python.
+
+Desenvolvedores iniciantes que desejam aprender Django na prática.
+
+🧱 Estrutura do Repositório
+
+O conteúdo está organizado em módulos didáticos, seguindo uma progressão lógica de aprendizado:
+
 Softex_BackEnd_Python/
 ├── modulo_01_python_basico/
 ├── modulo_02_logica_programacao/
@@ -37,158 +37,230 @@ Softex_BackEnd_Python/
 ├── modulo_04_crud_banco_dados/
 ├── modulo_05_api_rest_drf/
 └── projeto_integrador/
-```
+
 
 Cada módulo contém:
 
-* 📄 Apostilas e explicações teóricas
-* 🧪 Exercícios práticos
-* 💻 Códigos‑modelo comentados para estudo em sala de aula
+📄 Apostilas e explicações teóricas.
 
----
+🧪 Exercícios práticos.
 
-## 📚 Conteúdo por Módulo
+💻 Códigos‑modelo comentados para estudo em sala de aula.
 
-### 🔹 Módulo 01 – Fundamentos de Python
+📚 Conteúdo por Módulo
 
-* Sintaxe básica
-* Tipos de dados
-* Variáveis
-* Entrada e saída de dados
+🔹 Módulo 01 – Fundamentos de Python
 
-### 🔹 Módulo 02 – Lógica de Programação
+Sintaxe básica
 
-* Estruturas condicionais
-* Estruturas de repetição
-* Listas, tuplas e dicionários
-* Funções
+Tipos de dados
 
-### 🔹 Módulo 03 – Introdução ao Django
+Variáveis
 
-* Conceito de framework
-* Arquitetura MVT (Model, View, Template)
-* Criação de projetos e apps
-* Rotas e templates HTML
+Entrada e saída de dados
 
-### 🔹 Módulo 04 – CRUD e Banco de Dados
+🔹 Módulo 02 – Lógica de Programação
 
-* Models e migrations
-* Banco de dados SQLite
-* Django Admin
-* Operações CRUD completas
+Estruturas condicionais
 
-### 🔹 Módulo 05 – APIs REST com Django REST Framework
+Estruturas de repetição
 
-* Introdução a APIs REST
-* Serializers
-* Views e ViewSets
-* Rotas de API
-* Boas práticas para APIs
+Listas, tuplas e dicionários
 
----
+Funções
 
-## 🧩 Projeto Integrador
+🔹 Módulo 03 – Introdução ao Django
 
-O **Projeto Integrador** tem como objetivo consolidar os conhecimentos adquiridos ao longo do curso.
+Conceito de framework
 
-Ele envolve:
+Arquitetura MVT (Model, View, Template)
 
-* Estruturação de um projeto Django completo
-* Implementação de CRUD
-* Criação de uma API REST funcional
-* Organização de código e documentação
+Criação de projetos e apps
 
-📁 Localizado na pasta:
+Rotas e templates HTML
 
-```text
-/projeto_integrador
-```
+🔹 Módulo 04 – CRUD e Banco de Dados
 
----
+Models e migrations
 
-## 🚀 Tecnologias Utilizadas
+Banco de dados SQLite
 
-* **Python 3.10+**
-* **Django 5.x**
-* **Django REST Framework (DRF)**
-* **SQLite** (ambiente de desenvolvimento)
-* **Virtualenv**
-* **Git & GitHub**
+Django Admin
 
----
+Operações CRUD completas
 
-## ▶️ Como Executar o Projeto
+🔹 Módulo 05 – APIs REST com Django REST Framework
 
-### 1️⃣ Clonar o repositório
+Introdução a APIs REST
 
-```bash
-git clone https://github.com/MiguelFAraujo/Softex_BackEnd_Python.git
+Serializers
+
+Views e ViewSets
+
+Rotas de API
+
+Boas práticas para APIs
+
+🚀 Tecnologias Utilizadas
+
+Python 3.10+
+
+Django 5.x
+
+Django REST Framework (DRF)
+
+SQLite (ambiente de desenvolvimento)
+
+Virtualenv
+
+Git & GitHub
+
+▶️ Como Executar o Projeto
+
+1️⃣ Clonar o repositório
+
+git clone [https://github.com/MiguelFAraujo/Softex_BackEnd_Python.git](https://github.com/MiguelFAraujo/Softex_BackEnd_Python.git)
 cd Softex_BackEnd_Python
-```
 
-### 2️⃣ Criar e ativar o ambiente virtual
 
-```bash
+2️⃣ Criar e ativar o ambiente virtual
+
+# Windows
 python -m venv .venv
-.venv\Scripts\activate  # Windows
-source .venv/bin/activate # Linux/Mac
-```
+.venv\Scripts\activate
 
-### 3️⃣ Instalar dependências
+# Linux/Mac
+python3 -m venv .venv
+source .venv/bin/activate
 
-```bash
+
+3️⃣ Instalar dependências
+
 pip install -r requirements.txt
-```
 
-### 4️⃣ Aplicar migrations
 
-```bash
+4️⃣ Aplicar migrations
+
 python manage.py migrate
-```
 
-### 5️⃣ Executar o servidor
 
-```bash
+5️⃣ Executar o servidor
+
 python manage.py runserver
-```
 
-Acesse em:
 
-```
-http://127.0.0.1:8000/
-```
+Acesse em: http://127.0.0.1:8000/
 
----
+🧪 Roteiro de Testes da API (Thunder Client)
 
-## 📌 Observações Importantes
+Este projeto utiliza JWT (JSON Web Token) para autenticação das rotas protegidas.
+Para testar corretamente a API, recomenda-se o uso do Thunder Client (extensão do VS Code).
 
-* Este repositório possui **finalidade educacional**
-* Os códigos são **exemplos didáticos**, podendo ser adaptados
-* Recomenda-se que os alunos **executem e modifiquem os códigos** durante as aulas
+Este roteiro segue exatamente o fluxo ensinado em aula e valida todas as funcionalidades do módulo de API REST com Django REST Framework.
 
----
+🔐 1️⃣ Autenticação – Obter Token JWT
 
-## 👨‍🏫 Autor
+Antes de acessar qualquer rota protegida, é necessário autenticar um usuário existente.
 
-**Miguel Ferreira de Araujo**
-Professor e Desenvolvedor Back-End
+Método: POST
 
-📘 Curso: Back-End com Python e Django – Softex
+Endpoint: /api/token/
 
----
+Body (JSON):
 
-## 🙏 Considerações ao Professor
+{
+  "username": "seu_usuario",
+  "password": "sua_senha"
+}
 
-Este projeto foi desenvolvido com base nos conhecimentos adquiridos ao longo do curso, sob a orientação do **Professor Anderson**, a quem deixo meu agradecimento pela condução das aulas, pelo suporte técnico e pelas contribuições fundamentais para a construção do aprendizado em Back-End com Python e Django.
 
-A abordagem prática adotada ao longo do curso foi essencial para a consolidação dos conceitos apresentados neste repositório, incentivando a autonomia, o raciocínio lógico e a aplicação real das tecnologias estudadas.
+Resposta esperada:
 
----
+{
+  "refresh": "token_refresh_string...",
+  "access": "token_access_string..."
+}
 
-## ⭐ Considerações Finais
 
-Este material foi desenvolvido com foco em **ensino prático**, priorizando clareza, organização e aplicação real dos conceitos de back-end.
+📌 Importante: Guarde o valor do access token, ele será utilizado nas próximas requisições.
 
-O repositório reflete o processo de aprendizagem ao longo do curso e pode ser utilizado tanto como material de apoio para estudos futuros quanto como base para projetos mais avançados.
+🔑 2️⃣ Configurar Authorization no Thunder Client
 
-Sugestões de melhoria, correções e contribuições são sempre bem-vindas.
+Para todas as rotas protegidas listadas abaixo:
+
+Abra a requisição no Thunder Client.
+
+Vá até a aba Headers.
+
+Adicione o seguinte cabeçalho:
+
+Key: Authorization
+
+Value: Bearer SEU_ACCESS_TOKEN_AQUI
+
+⚠️ Caso esse cabeçalho não seja enviado, a API retornará 401 Unauthorized, o que é o comportamento esperado.
+
+📋 3️⃣ Listar Tarefas do Usuário Autenticado
+
+Método: GET
+
+Endpoint: /api/tarefas/
+
+✔ Retorna apenas as tarefas vinculadas ao usuário autenticado via token JWT.
+
+➕ 4️⃣ Criar Nova Tarefa
+
+Método: POST
+
+Endpoint: /api/tarefas/
+
+Body (JSON):
+
+{
+  "titulo": "Estudar Django REST Framework"
+}
+
+
+✔ O campo user é atribuído automaticamente pelo backend, conforme visto em aula.
+
+🔍 5️⃣ Detalhar Tarefa por ID
+
+Método: GET
+
+Endpoint: /api/tarefas/1/
+
+✔ Retorna os dados de uma tarefa específica pertencente ao usuário autenticado.
+
+✏️ 6️⃣ Atualizar Tarefa
+
+Método: PUT (atualização completa) ou PATCH (atualização parcial)
+
+Endpoint: /api/tarefas/1/
+
+Exemplo de Body (JSON):
+
+{
+  "titulo": "Revisar Django REST",
+  "concluida": true
+}
+
+
+❌ 7️⃣ Remover Tarefa
+
+Método: DELETE
+
+Endpoint: /api/tarefas/1/
+
+✔ Remove a tarefa do banco de dados (Status 204 No Content).
+
+🚪 8️⃣ Logout – Invalidar Refresh Token
+
+Método: POST
+
+Endpoint: /api/logout/
+
+Body (JSON):
+
+{
+  "refresh": "SEU_REFRESH_TOKEN_AQUI"
+}
