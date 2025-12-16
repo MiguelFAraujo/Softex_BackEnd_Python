@@ -1,12 +1,9 @@
 from django.urls import path
-from .views import ListaTarefasAPIView, DetalheTarefaAPIView
-
-app_name = 'core'
+# Importe apenas o que existe no seu views.py
+from .views import ListaTarefasAPIView, DetalheTarefaAPIView, LogoutView
 
 urlpatterns = [
-    # Rota antiga (Coleção)
     path('tarefas/', ListaTarefasAPIView.as_view(), name='lista-tarefas'),
-    
-    # O <int:pk> é o que captura o número da URL (ex: 1, 42)
     path('tarefas/<int:pk>/', DetalheTarefaAPIView.as_view(), name='detalhe-tarefa'),
+    path('logout/', LogoutView.as_view(), name='auth_logout'),
 ]

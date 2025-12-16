@@ -1,79 +1,126 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from django.shortcuts import get_object_or_404
-
-# adições necessárias para o POST(ap3)
 from .models import Tarefa
 from .serializers import TarefaSerializer
+from django.db import IntegrityError
+import logging
+from django.shortcuts import get_object_or_404 
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework import generics
+
+
+logger = logging.getLogger(__name__)
 
 
 class ListaTarefasAPIView(APIView):
-    """
-    View para listar todas as tarefas e criar novas (Apostila 2).
-    """
-    
+
+    permission_classes = [IsAuthenticated]
+
     def get(self, request, format=None):
         tarefas = Tarefa.objects.all()
         serializer = TarefaSerializer(tarefas, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
     def post(self, request, format=None):
-        serializer = TarefaSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        
-        # 5. Se der erro, retornar 400 Bad Request
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            serializer = TarefaSerializer(data=request.data)
+            
+            if serializer.is_valid():
+                serializer.save(user=self.request.user)
+                logger.info(f"[INFO]: Tarefa criada: {serializer.data['id']}")
+                return Response(
+                    serializer.data,
+                    status=status.HTTP_201_CREATED
+                )
+            logger.warning(f"[WARNING]: Validação falhou: {serializer.errors}")
+            return Response(
+                serializer.errors,
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        except IntegrityError as e:
+            # Erro de constraint no banco (ex: UNIQUE)
+            return Response(
+                {'error': '[ERROR]: Violação de integridade no banco de dados.'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        except Exception as e:
+            # Erro inesperado
+            logger.error(f"Erro ao criar tarefa: {str(e)}")
+            return Response(
+                {'error': 'Erro interno do servidor.'},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
 
 
-class DetalheTarefaAPIView(APIView):
-    """
-    View para operações em UMA tarefa específica:
-    - GET: Visualizar
-    - PUT: Atualizar tudo
-    - PATCH: Atualizar parcial
-    - DELETE: Apagar
-    """
+class DetalheTarefaAPIView(APIView): 
 
-    # Método auxiliar para buscar a tarefa ou dar erro 404
-    def get_object(self, pk):
+    def get_object(self, pk): 
         return get_object_or_404(Tarefa, pk=pk)
-
-    # 1. GET - Buscar uma tarefa específica
-    def get(self, request, pk, format=None):
-        tarefa = self.get_object(pk)
-        serializer = TarefaSerializer(tarefa) # Sem many=True, pois é um só
+    
+    def get(self, request, pk, format=None): 
+        tarefa = self.get_object(pk) 
+        serializer = TarefaSerializer(tarefa) 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    # 2. PUT - Atualizar TUDO (Exige todos os campos)
-    def put(self, request, pk, format=None):
-        tarefa = self.get_object(pk)
-        serializer = TarefaSerializer(tarefa, data=request.data)
+    def put(self, request, pk, format=None): 
         
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    # 3. PATCH - Atualizar PARCIAL (Ex: só marcar como concluída)
-    def patch(self, request, pk, format=None):
-        tarefa = self.get_object(pk)
-        
-        # O segredo do PATCH é o partial=True
-        serializer = TarefaSerializer(tarefa, data=request.data, partial=True)
-        
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
+        tarefa = self.get_object(pk) 
+        serializer = TarefaSerializer(tarefa, data=request.data) 
+    
+        if serializer.is_valid(): 
+            serializer.save() 
             
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(serializer.data, status=status.HTTP_200_OK) 
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST) 
+    
+    def patch(self, request, pk, format=None): 
 
-    # 4. DELETE - Apagar a tarefa
-    def delete(self, request, pk, format=None):
-        tarefa = self.get_object(pk)
-        tarefa.delete()
-        # Retorna 204 (Sucesso sem conteúdo)
+        tarefa = self.get_object(pk) 
+        serializer = TarefaSerializer( 
+            tarefa, 
+            data=request.data, 
+            partial=True
+        ) 
+ 
+        if serializer.is_valid(): 
+            serializer.save() 
+ 
+            return Response(serializer.data, status=status.HTTP_200_OK) 
+ 
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    def delete(self, request, pk, format=None): 
+
+        tarefa = self.get_object(pk) 
+        tarefa.delete() 
         return Response(status=status.HTTP_204_NO_CONTENT)
+    
+
+class MinhaView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+         return Response(f"Usuário autenticado: {request.user.username}", 
+                        status=status.HTTP_200_OK,
+                        )
+    
+class LogoutView(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    def post(self, request):
+        try:
+            refresh_token = request.data.get("refresh")
+            token = RefreshToken(refresh_token)
+            token.blacklist()
+            return Response(
+                {"detail": "Logout realizado com sucesso."},
+                status=status.HTTP_205_RESET_CONTENT,
+            )
+        except Exception:
+            return Response(
+            {"detail": "Token inválido."},
+            status=status.HTTP_400_BAD_REQUEST
+        )

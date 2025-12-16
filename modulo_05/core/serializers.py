@@ -2,16 +2,37 @@ from rest_framework import serializers
 from .models import Tarefa
 
 class TarefaSerializer(serializers.ModelSerializer):
+    # Mostra o username (read-only) em vez do ID
+    user = serializers.StringRelatedField(read_only=True)
+
     class Meta:
         model = Tarefa
-        fields = ['id', 'titulo', 'concluida', 'criada_em']
-        read_only_fields = ['id', 'criada_em']
+        fields = ['id', 'user', 'titulo', 'concluida', 'criada_em']
+        # Impedir que o cliente envie/edite esses campos
+        read_only_fields = ['id', 'user', 'criada_em']
 
-    # Validação customizada ensinada na Apostila 2
-    def validate_titulo(self, value):
+
+    '''def validate_titulo(self, value):
+        """
+        Validação customizada para o campo 'titulo'.
+        Regras:
+        - Não pode ser vazio (após strip)
+        - Não pode conter apenas números
+        - Deve ter pelo menos 3 caracteres
+        """
         value = value.strip()
         if not value:
-            raise serializers.ValidationError("O título não pode ser vazio.")
+            raise serializers.ValidationError(
+                "O título não pode ser vazio ou conter apenas espaços."
+            )
         if len(value) < 3:
-            raise serializers.ValidationError("O título deve ter pelo menos 3 caracteres.")
-        return value
+            raise serializers.ValidationError(
+                "O título deve ter pelo menos 3 caracteres."
+            )
+        if value.isdigit():
+            raise serializers.ValidationError(
+                "O título não pode conter apenas números."
+            )
+
+        
+        return value'''
