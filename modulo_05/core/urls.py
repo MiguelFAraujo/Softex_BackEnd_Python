@@ -1,9 +1,14 @@
 from django.urls import path
-# Importe apenas o que existe no seu views.py
-from .views import ListaTarefasAPIView, DetalheTarefaAPIView, LogoutView
+from .views import (
+    ListaTarefasAPIView,
+    DetalheTarefaAPIView,
+    MinhaView,
+    LogoutView,
+)
 
 urlpatterns = [
-    path('tarefas/', ListaTarefasAPIView.as_view(), name='lista-tarefas'),
-    path('tarefas/<int:pk>/', DetalheTarefaAPIView.as_view(), name='detalhe-tarefa'),
-    path('logout/', LogoutView.as_view(), name='auth_logout'),
+    path('tarefas/', ListaTarefasAPIView.as_view()),
+    path('tarefas/<int:pk>/', DetalheTarefaAPIView.as_view()),
+    path('minha/', MinhaView.as_view()),
+    path('logout/', LogoutView.as_view()),
 ]
