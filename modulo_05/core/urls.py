@@ -1,18 +1,24 @@
 from django.urls import path
 from .views import (
-    ListaTarefasAPIView,
-    DetalheTarefaAPIView,
+    TarefaListCreateAPIView,            
+    TarefaRetrieveUpdateDestroyAPIView, 
     RegisterView,
-    MinhaView,
     LogoutView
+    # Removido: MinhaView
 )
 
 app_name = 'core'
 
 urlpatterns = [
-    path('tarefas/', ListaTarefasAPIView.as_view(), name='tarefas-list'),
-    path('tarefas/<int:pk>/', DetalheTarefaAPIView.as_view(), name='tarefas-detail'),
+    # Rota para Listar (GET) e Criar (POST)
+    path('tarefas/', TarefaListCreateAPIView.as_view(), name='tarefas-list'),
+
+    # Rota para Detalhar (GET), Atualizar (PUT/PATCH) e Deletar (DELETE)
+    path('tarefas/<int:pk>/', TarefaRetrieveUpdateDestroyAPIView.as_view(), name='tarefas-detail'),
+
+    # Rotas de Autenticação
     path('register/', RegisterView.as_view(), name='register'),
-    path('minha-view/', MinhaView.as_view(), name='minha-view'),
     path('logout/', LogoutView.as_view(), name='logout'),
+    
+    # Removido: path('minha-view/', ...)
 ]

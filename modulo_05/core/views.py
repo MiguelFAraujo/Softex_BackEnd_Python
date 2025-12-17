@@ -9,64 +9,59 @@ from .models import Tarefa
 from .serializers import TarefaSerializer, UserRegistrationSerializer
 from .permissions import IsGerente
 
-# --- NOVAS VIEWS DA APOSTILA 5 ---
+# --- CADASTRO (Apostila 5) ---
 
-class RegisterView(generics.CreateAPIView):
+class RegisterView(generics.CreateAPIView): 
+    """ 
+    Endpoint para cadastro de novos usuários. 
+    Acesso: Público (Qualquer um pode criar conta). 
+    """ 
+    queryset = User.objects.all() 
+    permission_classes = [AllowAny] # Sobrescreve o padrão global 
+    serializer_class = UserRegistrationSerializer 
+
+class TarefaListCreateAPIView(generics.ListCreateAPIView):
     """
-    Endpoint para cadastro de novos usuários.
-    Acesso: Público (AllowAny).
+    Substitui a antiga ListaTarefasAPIView.
+    Agora deixa claro que LISTA e CRIA.
     """
-    queryset = User.objects.all()
-    permission_classes = [AllowAny]
-    serializer_class = UserRegistrationSerializer
-
-
-# --- VIEWS EXISTENTES (ATUALIZADAS) ---
-
-class ListaTarefasAPIView(generics.ListCreateAPIView):
     serializer_class = TarefaSerializer
     permission_classes = [IsAuthenticated]
 
-    def get_queryset(self):
-        # RLS: Retorna apenas tarefas do usuário logado
-        return Tarefa.objects.filter(user=self.request.user)
+    def get_queryset(self): 
+        """ 
+        Sobrescreve o comportamento padrão para retornar APENAS 
+        os dados pertencentes ao usuário logado. 
+        """ 
+        # 1. Recupera o usuário validado pelo JWT 
+        user = self.request.user 
+        # 2. Retorna o filtro. O Django fará o WHERE user_id = X no banco. 
+        return Tarefa.objects.filter(user=user) 
 
-    def perform_create(self, serializer):
-        # Vincula a tarefa criada ao usuário atual
-        serializer.save(user=self.request.user)
-
-
-class DetalheTarefaAPIView(generics.RetrieveUpdateDestroyAPIView):
-    serializer_class = TarefaSerializer
-    # Removemos 'permission_classes' fixo para usar o método dinâmico abaixo
-
-    def get_queryset(self):
-        # RLS: Garante que só acessa/edita/deleta se for dono
-        return Tarefa.objects.filter(user=self.request.user)
-
-    def get_permissions(self):
-        """
-        Define a permissão baseada na ação (RBAC):
-        - DELETE: Exige autenticação E grupo 'Gerente'.
-        - OUTROS: Exige apenas autenticação (e ser dono).
-        """
-        if self.request.method == 'DELETE':
-            return [IsAuthenticated(), IsGerente()]
-        
-        return [IsAuthenticated()]
+    def perform_create(self, serializer): 
+        # Garante que a tarefa criada seja vinculada ao usuário logado 
+        serializer.save(user=self.request.user) 
 
 
-# --- VIEWS UTILITÁRIAS ---
+class TarefaRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView): 
+    serializer_class = TarefaSerializer  
+    def get_queryset(self): 
+        return Tarefa.objects.filter(user=self.request.user)  
 
-class MinhaView(APIView):
-    permission_classes = [IsAuthenticated]
+    def get_permissions(self): 
+        """ 
+        Instancia e retorna a lista de permissões que esta view requer, 
+        dependendo do método HTTP da requisição. 
+        """ 
+        if self.request.method == 'DELETE': 
+            # Para deletar: Precisa estar logado E ser Gerente 
+            # A ordem importa: primeiro checa login, depois o grupo 
+            return [IsAuthenticated(), IsGerente()] 
+        # Para GET, PUT, PATCH: Basta estar logado (e ser dono, garantido pelo queryset) 
+        return [IsAuthenticated()] 
 
-    def get(self, request):
-        return Response(
-            f"Usuário autenticado: {request.user.username}", 
-            status=status.HTTP_200_OK
-        )
 
+# --- UTILITÁRIOS (Logout/Testes) ---
 
 class LogoutView(APIView):
     permission_classes = [IsAuthenticated]
@@ -76,13 +71,6 @@ class LogoutView(APIView):
             refresh_token = request.data.get("refresh")
             token = RefreshToken(refresh_token)
             token.blacklist()
-
-            return Response(
-                {"detail": "Logout realizado com sucesso."}, 
-                status=status.HTTP_205_RESET_CONTENT
-            )
+            return Response({"detail": "Logout realizado."}, status=205)
         except Exception:
-            return Response(
-                {"detail": "Token inválido."}, 
-                status=status.HTTP_400_BAD_REQUEST
-            )
+            return Response({"detail": "Token inválido."}, status=400)
