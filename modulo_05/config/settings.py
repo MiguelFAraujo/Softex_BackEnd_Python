@@ -5,7 +5,7 @@ from datetime import timedelta
 import dj_database_url
 from dotenv import load_dotenv
 
-# Carrega as variáveis do arquivo .env
+# Carrega as variáveis do arquivo .env (para uso local)
 load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -15,14 +15,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# Tenta pegar do .env. Se não achar, usa uma chave insegura padrão (para não quebrar localmente)
 SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-chave-desenvolvimento-padrao')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# O .env retorna texto, então comparamos com a string 'True'
+# O Render define DEBUG como 'False' automaticamente via variáveis de ambiente
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
-# Pega a lista do .env separada por vírgula. Se não tiver, permite localhost.
+# ALLOWED_HOSTS: Aceita o que vier do Render ou localhost
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '127.0.0.1,localhost').split(',')
 
 
@@ -45,7 +44,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    "whitenoise.middleware.WhiteNoiseMiddleware", # Adicionado para Deploy (opcional agora, mas bom ter)
+    "whitenoise.middleware.WhiteNoiseMiddleware",  # <--- OBRIGATÓRIO PARA O CSS FUNCIONAR NO RENDER
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -77,7 +76,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-# Configuração Híbrida: Tenta conectar no Render (.env), senão usa SQLite local
+# Configuração Híbrida: Usa PostgreSQL no Render e SQLite no PC
 DATABASES = {
     'default': dj_database_url.config(
         default='sqlite:///db.sqlite3',
@@ -120,13 +119,15 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'  # <--- Importante ter a barra no início
 
-# Essa linha diz onde o WhiteNoise deve guardar os arquivos coletados
+# Onde o Render vai guardar os arquivos coletados
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-# Essa linha permite compactação e cache (opcional, mas recomendado pela apostila)
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# --- CORREÇÃO DO ERRO 500 ---
+# Comentei a linha abaixo. Ela é muito rigorosa e quebra o site se faltar um arquivo mínimo.
+# Sem ela, o WhiteNoise funciona no modo padrão, que é mais seguro.
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage' 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
